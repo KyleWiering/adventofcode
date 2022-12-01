@@ -1,5 +1,6 @@
 <?php
 
+
 $input = <<<INPUT
 1000
 2000
@@ -17,6 +18,10 @@ $input = <<<INPUT
 10000
 INPUT;
 
-echo $input;
+$elves = explode("\n\n", $input);
 
-?>
+$cal = [];
+foreach ($elves as $key => $value) {
+    $cal[] = array_sum(explode("\n", $value));
+}
+echo max($cal);
