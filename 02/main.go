@@ -69,3 +69,41 @@ func calcRound(a string, b string) int {
 
 	return 0
 }
+
+
+// part two:
+// X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
+
+func calcRound2(a string, b string) int {
+	switch a {
+	case "A": // rock
+		switch b {
+		case "X": // scissors
+			return 0 + 3
+		case "Y": // Rock
+			return 3 + 1
+		case "Z": // Paper
+			return 6 + 2
+		}
+	case "B": // paper
+		switch b {
+		case "X": // rock
+			return 0 + 1
+		case "Y": // paper
+			return 3 + 2
+		case "Z": // scissors
+			return 6 + 3
+		}
+	case "C": // scissors
+		switch b {
+		case "X": // paper
+			return 0 + 2
+		case "Y": // scissors
+			return 3 + 3
+		case "Z": // rock
+			return 6 + 1
+		}
+	}
+
+	return 0
+}
