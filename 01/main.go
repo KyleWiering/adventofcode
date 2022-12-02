@@ -42,11 +42,36 @@ func main() {
 }
 
 func maxArr(input []int) int {
+
+	second := 0
+	third := 0
 	max := 0
 	for _, val := range input {
 		if val > max {
+			third = second
+			second = max
 			max = val
+		} else {
+			if val > second {
+				third = second
+				second = val
+			} else {
+				if val > third {
+					third = val
+				}
+			}
 		}
 	}
-	return max
+	return max + second + third
 }
+
+
+// func maxArrPart1(input []int) int {
+// 	max := 0
+// 	for _, val := range input {
+// 		if val > max {
+// 			max = val
+// 		}
+// 	}
+// 	return max
+// }
