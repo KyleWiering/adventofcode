@@ -1,0 +1,52 @@
+use std::str::Split;
+
+fn main() {
+    let ruscksacks: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw";
+    let mut total: u32 = 0;
+    let rucksacklist: Split<&str> = ruscksacks.split("\n");
+    for rucksack in rucksacklist {
+        println!("full {}", rucksack);
+        let (compartmenta,compartmentb)=compartments(rucksack);
+        println!("compa: {}",compartmenta);
+        println!("compb: {}",compartmentb);
+        let compa = compartmenta.chars();
+        // let compb = compartmentb.chars();
+        for c in compa {
+            if is_in_comparment(c, compartmentb) {
+                total += charval(c);
+                println!("total: {}", total);
+                break;
+            }
+        }
+        
+    }
+    println!("total: {}", total)
+}
+
+fn is_in_comparment<'life>(letter: char, compartment: &'life str)->bool{
+    for c in compartment.chars() {
+        if letter == c {
+            return true
+        }
+    }
+    return false
+}
+
+fn charval<'life>(c: char)->u32{
+    if c.is_lowercase() {
+        return c as u32 - 96;
+    } 
+    return c as u32 - (64-26);
+}
+
+fn compartments<'life>(rucksack: &'life str )->(&'life str, &'life str) {
+    let compartmenta: &str = &rucksack[0..rucksack.chars().count() / 2];
+    let compartmentb: &str = &rucksack[rucksack.chars().count() / 2..rucksack.chars().count()];
+    return (compartmenta,compartmentb);
+}
+
