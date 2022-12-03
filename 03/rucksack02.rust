@@ -1,0 +1,61 @@
+use std::str::Split;
+
+fn main() {
+    let ruscksacks: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw";
+    let mut total: u32 = 0;
+    let rucksacklist: Split<&str> = ruscksacks.split("\n");
+    let mut i: u32 = 0;
+    let mut first:  &str = "";
+    let mut second:  &str = "";
+   
+    
+    for rucksack in rucksacklist {
+        if (i % 3)==0 {
+            first = rucksack;
+        }
+        if (i % 3)==1 {
+            second = rucksack;
+        }
+        if (i % 3)==2 {
+            let third:  &str = rucksack;
+            println!("full {} {} {}", first, second, third);
+            for c in first.chars() {
+                if is_in_comparments(c, second, third) {
+                    total += charval(c);
+                    println!("total: {}", total);
+                    break;
+                }
+            }
+        }
+        i+=1;
+    }
+
+    println!("total: {}", total)
+}
+
+fn is_in_comparments<'life>(letter: char, compartment: &'life str, compartmentb: &'life str)->bool{
+    for c in compartment.chars() {
+        if letter == c {
+            for d in compartmentb.chars() {
+                if letter == d {
+                    return true
+                } 
+            }
+        }
+    }
+    return false
+}
+
+fn charval<'life>(c: char)->u32{
+    if c.is_lowercase() {
+        return c as u32 - 96;
+    } 
+    return c as u32 - (64-26);
+}
+
+
