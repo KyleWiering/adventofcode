@@ -1,0 +1,65 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+var total = 0
+
+const isTest = false
+const testPayload = ``
+const livePayload = ``
+
+func main() {
+	fmt.Println(Run())
+}
+
+func getInput(isTest bool) []string {
+	if isTest {
+		return strings.Split(testPayload, "\n")
+	}
+	return strings.Split(livePayload, "\n")
+}
+
+func Run() int {
+	score := 1
+	cycle := 1
+	currentString := ""
+	commands := getInput(isTest)
+	for _, command := range commands {
+		if command == "noop" {
+			cycle, score, currentString = addCycleScore(0, cycle, score, currentString)
+			continue
+		}
+		operation := strings.Split(command, " ")[1]
+		cycleScore, _ := strconv.Atoi(operation)
+		cycle, score, currentString = addCycleScore(0, cycle, score, currentString)
+		cycle, score, currentString = addCycleScore(cycleScore, cycle, score, currentString)
+
+	}
+	return total
+}
+
+func addCycleScore(value, cycle, score int, pixels string) (int, int, string) {
+	if (cycle-1)%40 >= score-1 && (cycle-1)%40 <= score+1 {
+		pixels = pixels + "#"
+	} else {
+		pixels = pixels + "."
+	}
+	cycle = cycle + 1
+	score = score + value
+
+	if (cycle-20)%40 == 0 {
+		total = total + (cycle * score)
+	}
+
+	if (cycle-1)%40 == 0 {
+		// cycle = 1
+		fmt.Println(pixels, cycle, score)
+		pixels = ""
+	}
+
+	return cycle, score, pixels
+}
